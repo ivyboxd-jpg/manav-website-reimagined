@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Manav Agarwal — Agile Coach · AI Strategist · Author</title>
+<title>Manav Agarwal — Agile Coach · AI Strategist · Stand-Up Comedian</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <!-- Clean, Modern Sans-Serif Typographic System -->
@@ -104,10 +104,10 @@ nav.scrolled {
 [data-theme="light"] .theme-toggle .sun-icon { display: none; }
 [data-theme="light"] .theme-toggle .moon-icon { display: block; }
 
-.nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+.nav-hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
 .nav-hamburger span { display: block; width: 22px; height: 1.5px; background: var(--white); transition: all 0.3s; }
 
-/* ─── HERO (Image Top, Headline Directly Below) ─── */
+/* ─── HERO (Sized beautifully to prevent pointer clipping) ─── */
 .hero-wrapper {
   min-height: 100vh;
   padding: 8rem 3.5rem 5rem 3.5rem;
@@ -118,7 +118,7 @@ nav.scrolled {
   position: relative;
 }
 
-/* Centered Portrait at the Top of the Page */
+/* Centered Portrait with solid vector graphic behind it */
 .hero-top-visual {
   position: relative;
   display: flex;
@@ -127,40 +127,60 @@ nav.scrolled {
   opacity: 0; transform: translateY(30px);
   animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   width: 100%;
+  padding: 0 4rem;
 }
-.photo-wrap { position: relative; width: min(340px, 100%); }
+.photo-wrap {
+  position: relative;
+  width: 320px; /* Reduced to leave plenty of horizontal space for loops on all screens */
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
 .photo-img {
-  display: block; width: 100%;
-  position: relative; z-index: 1; pointer-events: none;
+  display: block;
+  width: 90%;
+  height: auto;
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
 }
-.photo-img-fallback {
-  display: none; width: 100%; aspect-ratio: 3/4;
-  background: var(--bg2); align-items: center; justify-content: center;
-  font-size: 0.8rem; color: var(--muted);
+
+/* Custom organic backdrop graphic (Matches Kane's vector backdrop exactly) */
+.photo-backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0.15;
+  fill: var(--lime);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(1.15);
 }
+
 .photo-wrap::after {
   content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
-  background: var(--border); z-index: 2;
+  background: var(--border); z-index: 3;
 }
 
-/* Symmetrical Loop Arrows Around Portrait (Kane Sherwell style) */
-.c-left-top { top: 12%; right: calc(100% + 24px); animation-delay: 0.9s; }
-.c-left-top::before { top: 50%; left: 100%; width: 24px; }
-.c-left-top::after { top: calc(50% - 2px); left: calc(100% + 22px); }
+/* Responsive Callouts Symmetrical Spacing (2 Left, 2 Right) */
+.c-left-top { top: 12%; right: calc(100% + 15px); }
+.c-left-bottom { bottom: 18%; right: calc(100% + 15px); }
+.c-right-top { top: 12%; left: calc(100% + 15px); }
+.c-right-bottom { bottom: 18%; left: calc(100% + 15px); }
 
-.c-left-bottom { bottom: 18%; right: calc(100% + 24px); animation-delay: 1.05s; }
-.c-left-bottom::before { top: 50%; left: 100%; width: 24px; }
-.c-left-bottom::after { top: calc(50% - 2px); left: calc(100% + 22px); }
+/* Squeeze visual styles slightly on mobile to avoid overflow clipping */
+@media (max-width: 768px) {
+  .photo-wrap { width: 190px; }
+  .c-left-top { top: 10%; right: 105%; }
+  .c-left-bottom { bottom: 15%; right: 105%; }
+  .c-right-top { top: 10%; left: 105%; }
+  .c-right-bottom { bottom: 15%; left: 105%; }
+}
 
-.c-right-top { top: 12%; left: calc(100% + 24px); animation-delay: 1.2s; }
-.c-right-top::before { top: 50%; right: 100%; width: 24px; }
-.c-right-top::after { top: calc(50% - 2px); right: calc(100% + 22px); }
-
-.c-right-bottom { bottom: 18%; left: calc(100% + 24px); animation-delay: 1.35s; }
-.c-right-bottom::before { top: 50%; right: 100%; width: 24px; }
-.c-right-bottom::after { top: calc(50% - 2px); right: calc(100% + 22px); }
-
-/* Copy Block Directly Below the Picture */
+/* Copy Block Directly Below Portrait */
 .hero-copy-section {
   text-align: center;
   max-width: 880px;
@@ -178,15 +198,13 @@ nav.scrolled {
   color: var(--lime);
 }
 
-/* Zero-Clip Inline Carousel Headline */
+/* Locked Layout Box: Carousel changes values smoothly without moving side letters */
 .hero-headline {
   font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800;
   font-size: clamp(2.4rem, 5vw, 4.2rem);
   line-height: 1.1; letter-spacing: -0.03em;
   color: var(--white);
 }
-
-/* Smart Fixed-Box eliminates layout shifts */
 .carousel-inline-box {
   display: inline-flex;
   justify-content: center;
@@ -194,7 +212,6 @@ nav.scrolled {
   min-width: 120px;
   text-align: center;
 }
-
 .carousel-word-highlight {
   color: var(--lime);
   font-weight: 800;
@@ -218,32 +235,6 @@ nav.scrolled {
 .hero-sub strong { color: var(--white); font-weight: 500; }
 
 .hero-actions { display: flex; gap: 1.25rem; flex-wrap: wrap; justify-content: center; align-items: center; }
-.btn-fill {
-  display: inline-flex; align-items: center; gap: 0.75rem;
-  padding: 1.1rem 2.2rem; background: var(--lime); color: var(--bg);
-  font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.82rem; font-weight: 700;
-  letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none;
-  border: none; border-radius: 4px; cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.btn-fill:hover {
-  opacity: 0.95;
-  transform: translateY(-3px);
-  box-shadow: 0 12px 30px var(--lime-dim);
-}
-.btn-outline {
-  display: inline-flex; align-items: center; gap: 0.75rem;
-  padding: 1.1rem 2.2rem; background: transparent; color: var(--white);
-  font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.82rem; font-weight: 600;
-  letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none;
-  border: 1px solid rgba(250, 246, 240, 0.15); border-radius: 4px; cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.btn-outline:hover {
-  border-color: var(--white);
-  color: var(--white);
-  transform: translateY(-3px);
-}
 
 /* ─── METRICS STRIP (Strictly 2 Columns, Center Aligned & Bold) ─── */
 .metrics {
@@ -355,6 +346,16 @@ nav.scrolled {
 }
 .workshops-grid.active { opacity: 1; transform: translateY(0); }
 
+/* Initial Empty State Placeholder (Default State on load) */
+.workshops-placeholder {
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  text-align: center; height: 350px; color: var(--muted2);
+  border: 1px dashed var(--border); border-radius: 8px; padding: 2rem;
+}
+.workshops-placeholder svg { width: 40px; height: 40px; color: var(--muted); margin-bottom: 1.25rem; opacity: 0.6; }
+.workshops-placeholder h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--white); }
+.workshops-placeholder p { font-size: 0.9rem; max-width: 300px; font-weight: 300; line-height: 1.6; }
+
 .workshop-card {
   background: var(--bg2); border: 1px solid var(--border);
   padding: 2.5rem; border-radius: 8px;
@@ -394,7 +395,7 @@ nav.scrolled {
 /* ─── LIBRARY (Space-saving dynamic book shelf row) ─── */
 .books-section { padding: 10rem 3.5rem; border-top: 1px solid var(--border); }
 
-/* Horizontal scrolling track preventing massive vertical space consumption */
+/* Horizontal scrolling shelf wrapper */
 .books-shelf-wrapper {
   overflow-x: auto;
   padding: 3rem 1.5rem;
@@ -598,11 +599,11 @@ footer {
 @keyframes calloutPop { to { opacity: 1; } }
 @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-/* ─── MOBILE DRAWER (Fully Animated transition) ─── */
+/* ─── DYNAMIC MOBILE DROPDOWN ─── */
 .mobile-menu {
   display: flex; position: fixed; inset: 0; background: var(--bg);
   z-index: 300;
-  flex-direction: column; align-items: center; justify-content: center; gap: 2.5rem;
+  flex-direction: column; align-items: center; justify-content: center; gap: 2rem;
   pointer-events: none;
   transform: translateY(-100%);
   opacity: 0;
@@ -618,11 +619,11 @@ footer {
 .mobile-menu-close { position: absolute; top: 2rem; right: 2rem; font-size: 1.8rem; color: var(--muted); cursor: pointer; background: none; border: none; line-height: 1; }
 
 /* ─── RESPONSIVE SYSTEM ───────────────────── */
-@media(max-width:1200px){
+@media(max-width:1200px) {
   .c-left-top, .c-left-bottom, .c-right-top, .c-right-bottom { display: none; }
 }
 
-@media(max-width:960px){
+@media(max-width:960px) {
   nav { padding: 1.5rem 2rem; }
   nav.scrolled { padding: 1.1rem 2rem; }
   .nav-links { display: none; }
@@ -646,7 +647,7 @@ footer {
   .footer-links { gap: 1.5rem; flex-wrap: wrap; }
 }
 
-@media(max-width:600px){
+@media(max-width:600px) {
   .metrics { grid-template-columns: 1fr; gap: 2.5rem; }
   .metric-item { padding: 0; }
   .hero-headline { font-size: 2.3rem; }
@@ -663,7 +664,8 @@ footer {
   <a href="#workshops" onclick="closeMobile()">Workshops</a>
   <a href="#books" onclick="closeMobile()">Books</a>
   <a href="#testimonials" onclick="closeMobile()">Proof</a>
-  <a href="#contact" class="btn-fill" onclick="closeMobile()">Book a Workshop</a>
+  <a href="#contact" onclick="closeMobile()">Comedy Gigs</a>
+  <a href="#contact" class="btn-fill" onclick="closeMobile()">Hire Manav</a>
 </div>
 
 <!-- HEADER / NAVIGATION -->
@@ -674,6 +676,7 @@ footer {
       <li><a href="#workshops">Workshops</a></li>
       <li><a href="#books">Books</a></li>
       <li><a href="#testimonials">Proof</a></li>
+      <li><a href="#contact">Comedy Gigs</a></li>
     </ul>
 
     <!-- Light Theme Toggle -->
@@ -694,7 +697,7 @@ footer {
       </svg>
     </button>
 
-    <a class="nav-cta" href="#contact">Book a Workshop</a>
+    <a class="nav-cta" href="#contact">Hire Manav</a>
     <div class="nav-hamburger" id="hamburger" onclick="openMobile()">
       <span></span><span></span><span></span>
     </div>
@@ -740,6 +743,14 @@ footer {
         </div>
       </div>
 
+      <!-- Organic asterisk-cross backdrop shape vector behind transparent cutout portrait -->
+      <div class="photo-backdrop">
+        <svg viewBox="0 0 100 100" width="100%" height="100%">
+          <path d="M 50,0 C 53,35 65,35 65,50 C 65,65 53,65 50,100 C 47,65 35,65 35,50 C 35,35 47,35 50,0 Z M 0,50 C 35,47 35,35 50,35 C 65,35 65,47 100,50 C 65,53 65,65 50,65 C 35,65 35,53 0,50 Z"/>
+        </svg>
+      </div>
+
+      <!-- Sized-down transparent portrait prevents overflow on standard viewports -->
       <img
         class="photo-img"
         src="https://i.postimg.cc/cH6QfR4K/IMG-0171.png"
@@ -752,7 +763,7 @@ footer {
 
   <!-- Headline Copy Area directly below portrait -->
   <section class="hero-copy-section">
-    <span class="hero-tag">Agile Coach · AI Strategist · Author</span>
+    <span class="hero-tag">Agile Transformation Leader &bull; Stand-Up Comedian</span>
     
     <h1 class="hero-headline">
       I help 
@@ -767,11 +778,11 @@ footer {
     <p class="hero-sub">
       From <strong>Aerospace Engineering</strong> to the frontlines of Agile transformation —
       I spent years watching brilliant strategies die because the humans behind them
-      were never brought along for the ride. Now I fix that.
+      were never brought along for the ride. Now I fix that with actionable structures and the high-energy delivery of stand-up comedy sets.
     </p>
 
     <div class="hero-actions">
-      <a class="btn-fill" href="#contact">Book a Workshop →</a>
+      <a class="btn-fill" href="#contact">Book Workshops & Comedy →</a>
       <a class="btn-outline" href="#books">Explore the Books</a>
     </div>
   </section>
@@ -813,7 +824,7 @@ footer {
   <div class="workshops-split">
     <!-- Line-by-Line Stacked Sidebar Filters (Saves vast space, Kane's exact selector style) -->
     <div class="filter-tabs" id="filterTabs">
-      <button class="filter-tab active" data-filter="implementation">Implementation <span class="tab-count">2</span></button>
+      <button class="filter-tab" data-filter="implementation">Implementation <span class="tab-count">2</span></button>
       <button class="filter-tab" data-filter="safe">SAFe® Cert <span class="tab-count">3</span></button>
       <button class="filter-tab" data-filter="career">Career <span class="tab-count">2</span></button>
       <button class="filter-tab" data-filter="ai">AI & PM <span class="tab-count">1</span></button>
@@ -821,7 +832,18 @@ footer {
 
     <!-- Active Workshops Panel -->
     <div class="workshops-container">
-      <div class="workshops-grid active" id="workshopsGrid">
+      
+      <!-- Blank State (Default on page load, keeps implementation cards hidden until category tab clicked) -->
+      <div class="workshops-placeholder" id="placeholderState">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.042 21.672L13.684 16.6m0 0l-2.51 2.225.569-3.47 3.3-1.355zm0 0a9.003 9.003 0 111.96-3.83" />
+        </svg>
+        <h3>Choose a Track</h3>
+        <p>Select a category from the vertical sidebar to load the corresponding workshop modules.</p>
+      </div>
+
+      <!-- Workshop Cards Grid (Hides on load until category tab is clicked) -->
+      <div class="workshops-grid" id="workshopsGrid">
 
         <div class="workshop-card" data-category="implementation">
           <div class="wcard-top">
@@ -829,7 +851,6 @@ footer {
           </div>
           <div class="wcard-title">Project Management Essentials</div>
           <div class="wcard-desc">Waterfall structure meets Agile flexibility. Stakeholders who don't know what they want, risk mitigation that people actually use, and delivery under pressure — all covered.</div>
-          <!-- Visual badging row -->
           <div class="wcard-tools">
             <span class="tool-badge">Jira Board</span>
             <span class="tool-badge">Miro Matrix</span>
@@ -974,6 +995,7 @@ footer {
 </section>
 
 <!-- LIBRARY (Space-saving horizontal scroll shelf) -->
+.books-section { padding: 10rem 3.5rem; border-top: 1px solid var(--border); }
 <section class="books-section" id="books">
   <p class="section-eyebrow">The Library</p>
   <h2 class="section-title">Business books written<br><em>like actual stories.</em></h2>
@@ -1238,6 +1260,7 @@ counters.forEach(c => metricObs.observe(c));
 const tabs = document.querySelectorAll('.filter-tab');
 const cards = document.querySelectorAll('.workshop-card');
 const workshopsGrid = document.getElementById('workshopsGrid');
+const placeholderState = document.getElementById('placeholderState');
 
 tabs.forEach(tab => {
   tab.addEventListener('click', () => {
@@ -1249,22 +1272,23 @@ tabs.forEach(tab => {
     // Smooth transition trigger
     workshopsGrid.style.opacity = '0';
     workshopsGrid.style.transform = 'translateY(10px)';
+    placeholderState.style.display = 'none';
 
     setTimeout(() => {
       cards.forEach(card => {
         const match = card.dataset.category === filter;
         card.style.display = match ? 'flex' : 'none';
       });
+      workshopsGrid.classList.add('active');
       workshopsGrid.style.opacity = '1';
       workshopsGrid.style.transform = 'translateY(0)';
     }, 200);
   });
 });
 
-// Default category load state on initial page load (Loads Implementation workshops first)
+// REMOVED THE DEFAULT LOAD OF IMPLEMENTATION CARDS (Cards stay 100% hidden on load)
 cards.forEach(card => {
-  const match = card.dataset.category === 'implementation';
-  card.style.display = match ? 'flex' : 'none';
+  card.style.display = 'none';
 });
 
 /* ─── SCROLL REVEAL TRIGGERS ─── */
