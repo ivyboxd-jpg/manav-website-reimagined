@@ -77,20 +77,20 @@ nav.scrolled {
 .nav-links a:hover { color: var(--white); }
 .nav-cta {
   font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--bg); background: var(--lime); border: none; cursor: pointer;
+  color: var(--bg) !important; background: var(--lime) !important; border: none; cursor: pointer;
   padding: 0.75rem 1.6rem; text-decoration: none;
   border-radius: 4px;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
-[data-theme="dark"] .nav-cta { color: #000; }
-[data-theme="light"] .nav-cta { color: #fff; }
+[data-theme="dark"] .nav-cta { color: #000 !important; }
+[data-theme="light"] .nav-cta { color: #fff !important; }
 .nav-cta:hover {
   opacity: 0.92;
   transform: translateY(-2px);
   box-shadow: 0 8px 24px var(--lime-dim);
 }
 
-/* Elegant Theme Switch Toggle */
+/* Theme Toggle Switch */
 .theme-toggle {
   background: none; border: none; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
@@ -104,10 +104,10 @@ nav.scrolled {
 [data-theme="light"] .theme-toggle .sun-icon { display: none; }
 [data-theme="light"] .theme-toggle .moon-icon { display: block; }
 
-.nav-hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+.nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
 .nav-hamburger span { display: block; width: 22px; height: 1.5px; background: var(--white); transition: all 0.3s; }
 
-/* ─── HERO (Sized beautifully to prevent pointer clipping) ─── */
+/* ─── HERO (Portrait Placed at the Very Top) ─── */
 .hero-wrapper {
   min-height: 100vh;
   padding: 8rem 3.5rem 5rem 3.5rem;
@@ -118,7 +118,7 @@ nav.scrolled {
   position: relative;
 }
 
-/* Centered Portrait with solid vector graphic behind it */
+/* Centered Sized-Down Portrait Container */
 .hero-top-visual {
   position: relative;
   display: flex;
@@ -131,7 +131,7 @@ nav.scrolled {
 }
 .photo-wrap {
   position: relative;
-  width: 320px; /* Reduced to leave plenty of horizontal space for loops on all screens */
+  width: 290px; /* Reduced to provide comfortable horizontal space for loops on all viewports */
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -145,7 +145,7 @@ nav.scrolled {
   pointer-events: none;
 }
 
-/* Custom organic backdrop graphic (Matches Kane's vector backdrop exactly) */
+/* Organic background cross symbol */
 .photo-backdrop {
   position: absolute;
   inset: 0;
@@ -165,15 +165,62 @@ nav.scrolled {
   background: var(--border); z-index: 3;
 }
 
-/* Responsive Callouts Symmetrical Spacing (2 Left, 2 Right) */
-.c-left-top { top: 12%; right: calc(100% + 15px); }
-.c-left-bottom { bottom: 18%; right: calc(100% + 15px); }
-.c-right-top { top: 12%; left: calc(100% + 15px); }
-.c-right-bottom { bottom: 18%; left: calc(100% + 15px); }
+/* Symmetrical Hand-Drawn Curved Loops (Kane style) */
+.callout {
+  position: absolute;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0;
+  animation: calloutPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
 
-/* Squeeze visual styles slightly on mobile to avoid overflow clipping */
+/* Absolute Coordinate Positioning */
+.c-left-top { top: 10%; right: calc(100% + 15px); flex-direction: row; }
+.c-left-bottom { bottom: 15%; right: calc(100% + 15px); flex-direction: row; }
+.c-right-top { top: 10%; left: calc(100% + 15px); flex-direction: row-reverse; }
+.c-right-bottom { bottom: 15%; left: calc(100% + 15px); flex-direction: row-reverse; }
+
+.callout-n {
+  font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1rem;
+  color: var(--lime);
+}
+.callout-text-box {
+  display: flex;
+  flex-direction: column;
+}
+.callout-title {
+  font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;
+  font-size: 0.78rem; color: var(--white); white-space: nowrap;
+}
+.callout-lbl {
+  font-size: 0.65rem; color: var(--muted); margin-top: 1px; white-space: nowrap;
+}
+
+/* Custom Hand-Drawn SVG Curved Paths */
+.arrow-svg {
+  width: 75px;
+  height: 35px;
+  overflow: visible;
+  pointer-events: none;
+}
+.handdrawn-path {
+  fill: none;
+  stroke: var(--lime);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  animation: drawCurve 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0.8s;
+  opacity: 0.45;
+}
+
+/* Responsive Scaling to prevent overflow clipping on smaller viewports */
 @media (max-width: 768px) {
-  .photo-wrap { width: 190px; }
+  .photo-wrap { width: 180px; }
+  .arrow-svg { display: none; } /* Hide loop lines on tight mobile viewports to prevent clutter */
   .c-left-top { top: 10%; right: 105%; }
   .c-left-bottom { bottom: 15%; right: 105%; }
   .c-right-top { top: 10%; left: 105%; }
@@ -198,13 +245,15 @@ nav.scrolled {
   color: var(--lime);
 }
 
-/* Locked Layout Box: Carousel changes values smoothly without moving side letters */
+/* Responsive Inline Carousel Headline */
 .hero-headline {
   font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800;
   font-size: clamp(2.4rem, 5vw, 4.2rem);
   line-height: 1.1; letter-spacing: -0.03em;
   color: var(--white);
 }
+
+/* Inline flex box with locked min-width resolves layout shifts entirely */
 .carousel-inline-box {
   display: inline-flex;
   justify-content: center;
@@ -221,11 +270,16 @@ nav.scrolled {
 .carousel-word-highlight.fade-out { opacity: 0; transform: translateY(-5px); }
 .carousel-word-highlight.fade-in { opacity: 1; transform: translateY(0); }
 
-.hero-headline .line2 {
-  display: block; color: var(--muted); font-weight: 400;
-  font-style: italic; font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 0.5em; letter-spacing: -0.01em; margin-top: 0.5em;
-  line-height: 1.5;
+/* About Me Styled in Comfort Green */
+.about-me-hero {
+  color: var(--lime);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 500;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  max-width: 540px;
+  display: inline-block;
+  margin-top: 0.5rem;
 }
 
 .hero-sub {
@@ -242,7 +296,7 @@ nav.scrolled {
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
   display: grid;
-  grid-template-columns: 1fr 1fr;  /* Two in a line layout */
+  grid-template-columns: 1fr 1fr;  /* Strict 2-column layout */
   gap: 4rem 3.5rem;
   background: transparent;
   text-align: center;
@@ -346,16 +400,6 @@ nav.scrolled {
 }
 .workshops-grid.active { opacity: 1; transform: translateY(0); }
 
-/* Initial Empty State Placeholder (Default State on load) */
-.workshops-placeholder {
-  display: flex; flex-direction: column; justify-content: center; align-items: center;
-  text-align: center; height: 350px; color: var(--muted2);
-  border: 1px dashed var(--border); border-radius: 8px; padding: 2rem;
-}
-.workshops-placeholder svg { width: 40px; height: 40px; color: var(--muted); margin-bottom: 1.25rem; opacity: 0.6; }
-.workshops-placeholder h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--white); }
-.workshops-placeholder p { font-size: 0.9rem; max-width: 300px; font-weight: 300; line-height: 1.6; }
-
 .workshop-card {
   background: var(--bg2); border: 1px solid var(--border);
   padding: 2.5rem; border-radius: 8px;
@@ -392,7 +436,7 @@ nav.scrolled {
 .wcard-arrow { color: var(--lime); font-size: 1rem; transition: transform 0.3s ease; }
 .workshop-card:hover .wcard-arrow { transform: translateX(6px); }
 
-/* ─── LIBRARY (Space-saving dynamic book shelf row) ─── */
+/* ─── LIBRARY (Visual 3D Book Cover Shelf Row) ─── */
 .books-section { padding: 10rem 3.5rem; border-top: 1px solid var(--border); }
 
 /* Horizontal scrolling shelf wrapper */
@@ -461,7 +505,7 @@ nav.scrolled {
 }
 .book-link:hover { gap: 0.85rem; }
 
-/* ─── TESTIMONIALS (Seamless Dynamic Carousel) ─── */
+/* ─── TESTIMONIALS (Continuous Auto-Scroll Marquee) ─── */
 .testi-section {
   padding: 10rem 3.5rem; background: var(--bg2); border-top: 1px solid var(--border);
   overflow: hidden;
@@ -476,10 +520,10 @@ nav.scrolled {
 .testi-marquee::before { left: 0; background: linear-gradient(90deg, var(--bg2), transparent); }
 .testi-marquee::after { right: 0; background: linear-gradient(-90deg, var(--bg2), transparent); }
 
-/* Slow but not too slow (28s loop velocity) */
+/* Slow but not too slow (24s loop velocity) */
 .testi-track {
   display: flex; gap: 2.5rem; width: max-content;
-  animation: testiTicker 28s linear infinite;
+  animation: testiTicker 24s linear infinite;
   will-change: transform;
 }
 .testi-track:hover { animation-play-state: paused; }
@@ -555,6 +599,12 @@ nav.scrolled {
   justify-content: center;
   align-items: center;
   width: 100%;
+  border-color: var(--lime) !important;
+  background-color: var(--lime) !important;
+  color: var(--bg) !important;
+}
+.form-submit-btn:hover {
+  opacity: 0.9;
 }
 
 /* Social Brands Grid (SVG Logos) */
@@ -598,6 +648,7 @@ footer {
 @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
 @keyframes calloutPop { to { opacity: 1; } }
 @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+@keyframes drawCurve { to { stroke-dashoffset: 0; } }
 
 /* ─── DYNAMIC MOBILE DROPDOWN ─── */
 .mobile-menu {
@@ -619,11 +670,11 @@ footer {
 .mobile-menu-close { position: absolute; top: 2rem; right: 2rem; font-size: 1.8rem; color: var(--muted); cursor: pointer; background: none; border: none; line-height: 1; }
 
 /* ─── RESPONSIVE SYSTEM ───────────────────── */
-@media(max-width:1200px) {
-  .c-left-top, .c-left-bottom, .c-right-top, .c-right-bottom { display: none; }
+@media(max-width:1200px){
+  .callout { display: none; }
 }
 
-@media(max-width:960px) {
+@media(max-width:960px){
   nav { padding: 1.5rem 2rem; }
   nav.scrolled { padding: 1.1rem 2rem; }
   .nav-links { display: none; }
@@ -647,7 +698,7 @@ footer {
   .footer-links { gap: 1.5rem; flex-wrap: wrap; }
 }
 
-@media(max-width:600px) {
+@media(max-width:600px){
   .metrics { grid-template-columns: 1fr; gap: 2.5rem; }
   .metric-item { padding: 0; }
   .hero-headline { font-size: 2.3rem; }
@@ -711,35 +762,45 @@ footer {
   <section class="hero-top-visual">
     <div class="photo-wrap">
 
-      <!-- Left Pointers (Two stacked metrics) -->
+      <!-- Left Pointers with Hand-Drawn Ink Loops -->
       <div class="callout c-left-top">
-        <span class="callout-n">01</span>
-        <div class="callout-body">
-          <div class="callout-main">Aerospace &rarr; PM</div>
-          <div class="callout-sub">Career arc alignment</div>
+        <div class="callout-text-box">
+          <span class="callout-title">Aerospace &rarr; PM</span>
+          <span class="callout-lbl">Career arc alignment</span>
         </div>
+        <svg class="arrow-svg" viewBox="0 0 100 40">
+          <path d="M 5,20 C 45,20 20,55 50,45 C 80,35 65,10 95,15" class="handdrawn-path" />
+        </svg>
       </div>
+      
       <div class="callout c-left-bottom">
-        <span class="callout-n">02</span>
-        <div class="callout-body">
-          <div class="callout-main">SAFe® SPC</div>
-          <div class="callout-sub">Certified agility coach</div>
+        <div class="callout-text-box">
+          <span class="callout-title">SAFe® SPC</span>
+          <span class="callout-lbl">Certified agility coach</span>
         </div>
+        <svg class="arrow-svg" viewBox="0 0 100 40">
+          <path d="M 5,25 C 45,25 35,5 95,15" class="handdrawn-path" />
+        </svg>
       </div>
 
-      <!-- Right Pointers (Two stacked metrics) -->
+      <!-- Right Pointers with Hand-Drawn Ink Loops -->
       <div class="callout c-right-top">
-        <span class="callout-n">03</span>
-        <div class="callout-body">
-          <div class="callout-main">4 Books</div>
-          <div class="callout-sub">Published business fables</div>
+        <svg class="arrow-svg" viewBox="0 0 100 40">
+          <path d="M 95,20 C 55,20 65,5 45,15 C 25,25 35,35 5,20" class="handdrawn-path" />
+        </svg>
+        <div class="callout-text-box">
+          <span class="callout-title">4 Books</span>
+          <span class="callout-lbl">Published business fables</span>
         </div>
       </div>
+      
       <div class="callout c-right-bottom">
-        <span class="callout-n">04</span>
-        <div class="callout-body">
-          <div class="callout-main">Germany-Based</div>
-          <div class="callout-sub">Workshops globally</div>
+        <svg class="arrow-svg" viewBox="0 0 100 40">
+          <path d="M 95,25 C 55,25 65,5 45,15 C 25,25 35,35 5,20" class="handdrawn-path" />
+        </svg>
+        <div class="callout-text-box">
+          <span class="callout-title">Germany-Based</span>
+          <span class="callout-lbl">Workshops globally</span>
         </div>
       </div>
 
@@ -772,8 +833,12 @@ footer {
         <span id="scramble-word" class="carousel-word-highlight">devs</span>
       </span> 
       actually work together.
-      <span class="line2">Transforming complex chaos into human stories.<br>No corporate theater. No buzzword karaoke.</span>
     </h1>
+
+    <!-- "About Me" blurb styled in custom green -->
+    <div class="about-me-hero">
+      About Me: Aerospace engineer turned Agile Coach & Stand-up Comedian. I deconstruct complex org dynamics using system logic, and rebuild team connection using storytelling and humor. No boring slides, no corporate theater.
+    </div>
 
     <p class="hero-sub">
       From <strong>Aerospace Engineering</strong> to the frontlines of Agile transformation —
@@ -994,8 +1059,7 @@ footer {
   </div>
 </section>
 
-<!-- LIBRARY (Space-saving horizontal scroll shelf) -->
-.books-section { padding: 10rem 3.5rem; border-top: 1px solid var(--border); }
+<!-- LIBRARY (Space-saving horizontal scroll shelf with clean CSS alignment) -->
 <section class="books-section" id="books">
   <p class="section-eyebrow">The Library</p>
   <h2 class="section-title">Business books written<br><em>like actual stories.</em></h2>
